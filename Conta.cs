@@ -27,19 +27,18 @@ namespace Banco
         {
             get
             {
-                if (_saldo == 0)
-                {
-                    Console.WriteLine("Não há saldo disponível");
-                }
                 return _saldo;
             }
             set
             {
-                if (value >= 0)
-                {
-                    _saldo = value;
-                }
+                _saldo = value;
             }
+        }
+        public Conta(string nomeTitular, int numeroConta, int saldoConta)
+        {
+            Nome = nomeTitular;
+            NumConta = numeroConta;
+            Saldo = saldoConta;
         }
         public static bool Cadastro(int numeroConta, string nomeTitular)
         {
@@ -52,11 +51,61 @@ namespace Banco
                 return false;
             }
         }
-        public Conta(string nomeTitular, int numeroConta, int saldoConta)
+        public void AlterarNome(string nome)
         {
-            Nome = nomeTitular;
-            NumConta = numeroConta;
-            Saldo = saldoConta;
+            if (!string.IsNullOrWhiteSpace(nome))
+            {
+                Nome = nome;
+                Console.WriteLine("Nome alterado com sucesso!");
+                Console.WriteLine(new string('-', 50));
+                Console.WriteLine("");
+            }
+            else
+            {
+                Console.WriteLine("O novo nome não pode ser nulo.");
+                Console.WriteLine(new string('-', 50));
+                Console.WriteLine("");
+            }
+        }
+        public void Deposito(int dep)
+        {
+            if (dep > 0)
+            {
+                Saldo = Saldo + dep;
+                Console.WriteLine("Depósito realizado com sucesso!");
+                Console.WriteLine(new string('-', 50));
+                Console.WriteLine("");
+            }
+            else
+            {
+                Console.WriteLine("O valor de depósito não pode ser nulo.");
+                Console.WriteLine(new string('-', 50));
+                Console.WriteLine("");
+            }
+        }
+        public bool SaldoDisponivel()
+        {
+            if (Saldo == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public void Saque(int saque)
+        {
+            if (saque > 0)
+            {
+                Saldo -= (saque + 5);
+                Console.WriteLine("Saque realizado com sucesso!");
+                Console.WriteLine(new string('-', 50));
+                Console.WriteLine("");
+            }
+            else
+            {
+                Console.WriteLine("O valor de saque não pode ser nulo.");
+                Console.WriteLine(new string('-', 50));
+                Console.WriteLine("");
+            }
         }
     }
 }

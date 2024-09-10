@@ -21,24 +21,62 @@ namespace Banco
                     conta = new Conta(nome, numConta, depInicial);
                     abertura = false;
                 }
-                Console.Clear();
-                Console.WriteLine("Valores inválidos inseridos.");
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Valores inválidos inseridos.");
+                    Console.WriteLine(new string('-', 50));
+                    Console.WriteLine("");
+                }
             }
             Console.Clear();
-            Console.WriteLine($"Bem vindo {conta.Nome} à sua conta de número {conta.NumConta}!\n\nDigite o valor da operação a ser realizada:");
+            bool controle = true;
+            while (controle)
+            {
+                Console.WriteLine($"Bem vindo {conta.Nome} à sua conta de número {conta.NumConta}!\nSaldo - {conta.Saldo};\n\n" +
+                    $"1 - Alterar nome do titular;\n2 - Depositar valor;\n3 - Sacar valor;\n4 - Sair.\n\nDigite o valor da operação a ser realizada:");
+                int inputMenu = int.Parse(Console.ReadLine());
+                switch (inputMenu)
+                {
+                    case 1:
+                        Console.Clear();
+                        Console.WriteLine("Insira o novo nome:");
+                        string nomeNovo = Console.ReadLine();
+                        Console.Clear();
+                        conta.AlterarNome(nomeNovo);
+                        break;
+                    case 2:
+                        Console.Clear();
+                        Console.WriteLine("Insira o valor que deseja depositar:");
+                        int dep = int.Parse(Console.ReadLine());
+                        Console.Clear();
+                        conta.Deposito(dep);
+                        break;
+                    case 3:
+                        Console.Clear();
+                        if (!conta.SaldoDisponivel())
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Não há saldo disponível para realizar saque.");
+                            break;
+                        }
+                        Console.WriteLine($"Saldo disponível - {conta.Saldo}.\nDigite o valor que deseja sacar:");
+                        int saque = int.Parse(Console.ReadLine());
+                        Console.Clear();
+                        conta.Saque(saque);
+                        break;
+                    case 4:
+                        Console.Clear();
+                        Console.WriteLine("Obrigado por utilizar o Banco NGX!");
+                        controle = false;
+                        break;
+                    default:
+                        Console.WriteLine("Digito inválido.\n");
+                        Console.WriteLine(new string('-', 50));
+                        Console.WriteLine("");
+                        break;
+                }
+            }
         }
     }
 }
-
-//Em um banco, para se cadastrar uma conta bancária, é necessário informar o número da conta, o nome do titular da conta,
-//e o valor de depósito inicial que o titular depositou ao abrir a conta. 
-//Este valor de depósito inicial, entretanto, é opcional, ou seja: se o titular não tiver dinheiro a depositar no momento de abrir sua conta,
-//o depósito inicial não será feito, e o saldo inicial da conta será naturalmente zero. 
-//Importante: uma vez que uma conta bancária foi aberta, o número da conta nunca poderá ser alterado. Já o nome do titular pode ser alterado
-//(pois uma pessoa pode mudar de nome por ocasião de casamento, por exemplo). 
-//Por fim, o saldo da conta não pode ser alterado livremente. É preciso haver um mecanismo para proteger isso. 
-//O saldo só aumenta por meio de depósitos, e só diminui por meio de saques. 
-//Para cada saque realizado, o banco cobra uma taxa de $ 5.00. 
-//Nota: a conta pode ficar com saldo negativo se o saldo não for suficiente para realizar o saque e/ou pagar a taxa. 
-//Você deve fazer um programa que realize o cadastro de uma conta, dando opção para que seja ou não informado o valor de depósito inicial. 
-//Em seguida, realizar um depósito e depois um saque, sempre mostrando os dados da conta após cada operação (exemplos nas próximas páginas).
